@@ -8,9 +8,9 @@ class RedisConfig {
   private isSubscribed: boolean = false;
 
   private constructor(options?: RedisOptions) {
-    const PORT = 14613;
-    const HOST = "redis-a9593a3-abhishekverman3459-978c.a.aivencloud.com";
-    const password = process.env.REDIS_PASSWORD || "AVNS_n5torHAeNiZrXXGwKmX";
+    const PORT = parseInt(process.env.REDIS_PORT || "6379");
+    const HOST = process.env.REDIS_HOST || "";
+    const password = process.env.REDIS_PASSWORD || "";
     this.redis = new Redis(PORT, HOST, { password });
     this.subscriber = new Redis(PORT, HOST, { password });
     console.log("🟢 Connecting to production_redis");

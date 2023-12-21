@@ -3,7 +3,7 @@ import SocketService from "./services/socket/socket";
 require("dotenv").config();
 async function init() {
   const httpServer = http.createServer();
-  const port = process.env.PORT || 8000 ;
+  const port = process.env.SERVER_PORT || 8000 ;
   const socketService = new SocketService();
   socketService.io.attach(httpServer);
 
@@ -19,3 +19,6 @@ init()
   .catch((err) => {
     console.log("error in init", err);
   });
+
+
+  console.log("token",process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TOKEN)
