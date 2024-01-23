@@ -5,15 +5,22 @@
     "scripts": {
         "start": "node dist/index.js",
         "dev": "tsc-watch --onSuccess \" node dist/index.js \"",
+        "test": "tsc-watch --onSuccess \" node dist/consume.js \"",
         "build": "tsc -p ."
     },
     "devDependencies": {
+        "@prisma/client": "^5.7.1",
         "tsc-watch": "^6.0.4",
         "typescript": "^5.3.3"
     },
     "dependencies": {
+        "@types/node": "^20.10.5",
         "dotenv": "^16.3.1",
+        "kafkajs": "^2.2.4",
         "ioredis": "^5.3.2",
-        "socket.io": "^4.7.2"
+        "prisma": "^5.7.1",
+        "socket.io": "^4.7.2",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.3.3"
     }
 }

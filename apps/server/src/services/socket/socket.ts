@@ -1,6 +1,7 @@
 import { Server } from "socket.io";
 import RedisConfig from "../redis/RedisClient";
-import { Redis } from "ioredis";
+import prismaClient from "../PrismaService/prisma";
+import KafkaConfig from "../kafka/KafkaClient";
 
 class SocketService {
   public _io: Server;
@@ -18,6 +19,7 @@ class SocketService {
   }
   public async initListners() {
     const redisClient = RedisConfig.getInstance();
+    const kafkaClient = KafkaConfig.getInstance();
     this._io.on("connect", (socket) => {
       console.log("a user connected", socket.id);
 
@@ -26,6 +28,15 @@ class SocketService {
         // I want to publish this message to redis
         redisClient.produce("MESSAGE", JSON.stringify(message));
         this._io.emit("event:message", message);
+
+        kafkaClient
+          .produce("MESSAGES", JSON.stringify(message))
+          .then((res) => {
+            if (res) console.log("message produced to kafka producer", res);
+          })
+          .catch((err) => {
+            console.log("error in saving message", err);
+          });
       });
       socket.on("disconnect", () => {
         console.log("user disconnected");
@@ -39,7 +50,6 @@ class SocketService {
     } catch (error) {
       console.log("error in subscriber", error);
     }
-
   }
 }
 export default SocketService;
